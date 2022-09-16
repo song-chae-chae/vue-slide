@@ -1,5 +1,8 @@
 <template>
-  <vs-slide></vs-slide>
+  <div class="main-view-wrapper">
+    <vs-slide></vs-slide>
+    <p>grass test</p>
+  </div>
 </template>
 
 <script>
