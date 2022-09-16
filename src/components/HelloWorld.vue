@@ -77,14 +77,11 @@
         <a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a>
       </li>
     </ul>
-    <vs-slide></vs-slide>
   </div>
 </template>
 
 <script>
-import vsSlide from "./vs-slide.vue";
 export default {
-  components: {vsSlide},
   name: "HelloWorld",
   props: {
     msg: String,
