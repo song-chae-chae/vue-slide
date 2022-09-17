@@ -1,7 +1,8 @@
 <template>
   <div class="main-view-wrapper">
-    <vs-slide></vs-slide>
-    <p>grass test</p>
+    <div class="slide-container">
+      <vs-slide></vs-slide>
+    </div>
   </div>
 </template>
 
@@ -12,4 +13,9 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+.slide-container {
+  width: 70%;
+  margin: 0 auto;
+}
+</style>
