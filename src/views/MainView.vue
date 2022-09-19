@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import vsSlide from "@/components/vs-slide.vue";
+import vsSlide from '@/components/vs-slide.vue';
 export default {
   components: {vsSlide},
 };
