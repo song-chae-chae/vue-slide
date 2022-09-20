@@ -54,23 +54,48 @@ export default {
   },
   methods: {
     onMoved(splide, newIndex, prev, dest) {
-      console.log('new', newIndex); // 새로 active 되는 애
-      console.log('prev', prev); // 그 전에 active 됐던 애
-      console.log('destination', dest); // 맨 첫번째에서 반대 방향으로 가니까 음수 나올 수 있음
       this.slideIndex = newIndex;
       this.setIndexes();
+      this.setSlideClass(splide);
     },
     onPaginationUpdated(a, b) {},
     onActived(a, b) {
       this.slideIndex = b.index;
     },
-    onMounted() {
+    onMounted(splide) {
       this.setIndexes();
+      this.setSlideClass(splide);
     },
     setIndexes() {
       this.previousIndex = this.slideIndex - 1 < 0 ? this.slideIndex - 1 + this.images.length : this.slideIndex - 1;
       this.nextIndex =
         this.slideIndex + 1 >= this.images.length ? this.slideIndex + 1 - this.images.length : this.slideIndex + 1;
+    },
+    classList(element) {
+      let list = element.classList;
+
+      return {
+        add: function (c) {
+          list.add(c);
+          return list;
+        },
+        remove: function (c) {
+          list.remove(c);
+          return list;
+        },
+        toggle: function (c) {
+          list.toggle(c);
+          return list;
+        },
+      };
+    },
+    setSlideClass(splide) {
+      let cloneList = splide.Components.Clones.clones;
+      cloneList.forEach((element, index) => {
+        this.classList(element).remove('previous').remove('next');
+        if (this.previousIndex === index) this.classList(element).add('previous');
+        if (this.nextIndex === index) this.classList(element).add('next');
+      });
     },
   },
 };
