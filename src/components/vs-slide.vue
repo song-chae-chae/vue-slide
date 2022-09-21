@@ -34,12 +34,13 @@ export default {
   data() {
     return {
       options: {
-        rewind: true,
+        rewind: false,
         gap: '1rem',
         type: 'loop',
         padding: '5rem',
-        clones: 0,
-        cloneStatus: true,
+        autoplay: true,
+        interval: 7000,
+        speed: 1500,
       },
       images: [
         'https://cdn.pixabay.com/photo/2017/07/28/14/23/macarons-2548810__340.jpg',
@@ -53,7 +54,7 @@ export default {
     };
   },
   methods: {
-    onMoved(splide, newIndex, prev, dest) {
+    onMoved(splide, newIndex) {
       this.slideIndex = newIndex;
       this.setIndexes();
       this.setSlideClass(splide);
@@ -70,6 +71,14 @@ export default {
       this.previousIndex = this.slideIndex - 1 < 0 ? this.slideIndex - 1 + this.images.length : this.slideIndex - 1;
       this.nextIndex =
         this.slideIndex + 1 >= this.images.length ? this.slideIndex + 1 - this.images.length : this.slideIndex + 1;
+    },
+    setSlideClass(splide) {
+      let cloneList = splide.Components.Clones.clones;
+      cloneList.forEach((element, index) => {
+        this.classList(element).remove('previous').remove('next');
+        if (this.previousIndex === index) this.classList(element).add('previous');
+        if (this.nextIndex === index) this.classList(element).add('next');
+      });
     },
     classList(element) {
       let list = element.classList;
@@ -89,27 +98,62 @@ export default {
         },
       };
     },
-    setSlideClass(splide) {
-      let cloneList = splide.Components.Clones.clones;
-      cloneList.forEach((element, index) => {
-        this.classList(element).remove('previous').remove('next');
-        if (this.previousIndex === index) this.classList(element).add('previous');
-        if (this.nextIndex === index) this.classList(element).add('next');
-      });
-    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-img {
-  width: 100%;
-  height: 100%;
+@mixin slider-img {
+  position: absolute;
+  top: 0;
+  z-index: 2;
 }
-.next {
-  border: 10px solid red;
+
+.splide__slide {
+  overflow: hidden;
+
+  &.previous {
+    border: 10px solid blue;
+    img {
+      left: 50%;
+      animation: 1s linear 0s back-sliding forwards;
+      @include slider-img;
+    }
+  }
+
+  &.is-active.is-visible {
+    border: 10px solid black;
+    img {
+      left: 5%;
+      animation: 1s linear 0s sliding forwards;
+      @include slider-img;
+    }
+  }
+
+  &.next {
+    border: 10px solid red;
+    img {
+      left: 50%;
+      animation: 0.8s ease-in-out 0s back-sliding forwards;
+      @include slider-img;
+    }
+  }
 }
-.previous {
-  border: 10px solid blue;
+
+@keyframes back-sliding {
+  from {
+    left: 50%;
+  }
+  to {
+    left: 0%;
+  }
+}
+@keyframes sliding {
+  from {
+    left: 5%;
+  }
+  to {
+    left: 50%;
+  }
 }
 </style>
